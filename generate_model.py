@@ -39,16 +39,22 @@ if 200 <= response.status_code < 300:
         print(f" Status: {status} ({progress}%)")
 
         if status == "SUCCEEDED":
-            print("Download-URL:", task["model_urls"]["glb"])
+            glb_url = task["model_urls"]["glb"]
+            print("Download-URL:", glb_url)
+            model_response = requests.get(glb_url)
+            model_response.raise_for_status
+            with open("model.glb", "wb") as file:
+                file.write(model_response.content)
+
+            print("Saved as model.glb")
             break
         if status == "FAILED":
             print("Generation failed.")
             break
 
-        time.sleep(5)
-    
-    """Checking repeatedly for the generation status"""
+        time.sleep(5)         #Checking repeatedly for the generation status
 
+    
 else:
     print("Something went wrong. Answer from server:")
     print(response.text)
