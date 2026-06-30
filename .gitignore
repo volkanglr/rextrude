@@ -2,3 +2,5 @@
 node_modules/
 venv/
 *.glb
+.DS_Store
+__pycache__/
